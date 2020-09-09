@@ -1,0 +1,8 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Thêm sách mới
+    form(action="/add" method="POST" style="display:flex; flex-direction:column; width:500px; height:auto; gap: 12px;")
+      input(type="text" name="title" placeholder="Tiêu đề")
+      input(type="text" name="description" placeholder="nội dung tóm tắt")
+      button(type="submit") Thêm

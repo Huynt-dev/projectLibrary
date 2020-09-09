@@ -1,0 +1,10 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Thêm thành viên mới
+    form(method="POST" style="margin-top:20px")
+      div(class="form-group")
+        input(class="form-control" type="text" name="name" placeholder="Họ và tên")
+      div(class="form-group")
+        input(class="form-control" type="text" name="introduce" placeholder="một chút về bản thân")
+      button(class="btn btn-primary" type="submit") Thêm
