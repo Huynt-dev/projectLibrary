@@ -1,15 +1,2 @@
-extends ../views/layouts/common.pug
-block header
-  div(class="container-md")
-    h1 Thư viện sách
-    ul(class="nav")
-      li(class="nav-item")
-        a(class="nav-link" href="/book") Quản lý sách
-      li
-        a(class="nav-link" href="/master") Quản lý tài khoản
-      li
-        a(class="nav-link" href="/trade") Thuê sách
-
-    ul(class="list-group")
-      each value in library
-        li(class="list-group-item")= value.title
+h1 App To Do List
+a(href="/todo") Go app todo
