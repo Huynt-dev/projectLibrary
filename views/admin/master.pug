@@ -1,0 +1,13 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Danh sách người dùng
+    a(href="/addUser") Thêm User
+    ul(class="list-group")
+    each user in dataUsers
+      li(class="list-group-item")= user.name
+        a(class="badge badge-primary" href="master/" + user.id) Thông tin
+        span      
+        a(class="badge badge-success" href="master/" + user.id + "/edit") Sửa
+        span     
+        a(class="badge badge-danger" href="master/" + user.id + "/delete") Xóa

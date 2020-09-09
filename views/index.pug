@@ -1,6 +1,15 @@
-h1 Thư viện sách
-a(href="/book") Vào trang quản lý sách
+extends ../views/layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Thư viện sách
+    ul(class="nav")
+      li(class="nav-item")
+        a(class="nav-link" href="/book") Quản lý sách
+      li
+        a(class="nav-link" href="/master") Quản lý tài khoản
+      li
+        a(class="nav-link" href="/trade") Thuê sách
 
-ul
-  each value in library
-    li= value.title
+    ul(class="list-group")
+      each value in library
+        li(class="list-group-item")= value.title

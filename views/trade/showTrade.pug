@@ -1,0 +1,22 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Danh sách các giao dịch
+    a(href="trade/newTrader") Thuê sách
+
+    div(style="display:flex; flex-wrap: wrap;")
+      each data in transactions
+        div(style="border:1px dashed #000; width:300px; padding: 10px;margin:10px 10px 10px 0;")
+          p Mã giao dịch: 
+            span= data.id
+
+          p  Id người thuê: 
+            span= data.user.userId
+
+          p Id sách thuê: 
+            span= data.book.bookId
+
+          if data.isComplete == false
+            a(href="trade/"+data.id+"/complete") Trả sách
+          else
+            p Đã trả
