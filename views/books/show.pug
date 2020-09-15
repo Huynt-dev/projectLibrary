@@ -1,0 +1,13 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1  Thông tin của sách
+    ul(class="list-group")
+      li(class="list-group-item")  id: 
+        span= data.id
+
+      li(class="list-group-item")  Name: 
+        span= data.title
+
+      li(class="list-group-item")  Description: 
+        span= data.description

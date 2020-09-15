@@ -1,0 +1,17 @@
+extends ../layouts/common.pug
+block header
+  div(class="container-md")
+    h1 Thêm thành viên mới
+    if error
+      each err in error
+        .alert.alert-danger= err
+    form(method="POST" style="margin-top:20px")
+      div(class="form-group")
+        input(class="form-control" type="text" name="name" placeholder="Họ và tên")
+      div(class="form-group")
+        input(class="form-control" type="text" name="introduce" placeholder="một chút về bản thân")
+      div(class="form-group")
+        input(class="form-control" type="email" name="emailLogin" placeholder="Email")
+      div(class="form-group")
+        input(class="form-control" type="password" name="passLogin" placeholder="Password")
+      button(class="btn btn-primary" type="submit") Thêm

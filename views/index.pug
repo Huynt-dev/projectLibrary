@@ -1,2 +1,9 @@
-h1 App To Do List
-a(href="/todo") Go app todo
+extends ../views/layouts/common.pug
+block header
+  
+
+  div.container-md
+    div.mt-4
+      ul.list-group
+        each value in library
+          li(class="list-group-item")= value.title

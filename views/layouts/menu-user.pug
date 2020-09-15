@@ -1,0 +1,20 @@
+html
+  head
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
+    link(rel="icon" type="image/png", href="https://cdn.glitch.com/3bf585f6-f4dd-471f-a38a-8a3def75e8ce%2Ffavicon.png?v=1599645943858")
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      div(class="container-md")
+        a(href="/")
+          img(src='https://cdn.glitch.com/3bf585f6-f4dd-471f-a38a-8a3def75e8ce%2Ffavicon.png?v=1599645943858', alt='Thư việc sách')
+        a.navbar-brand(href="/") Thư viện sách
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link(href="/book") Quản lý sách
+            li.nav-item
+              a.nav-link(href="/master") Quản lý tài khoản
+    block headerUser
