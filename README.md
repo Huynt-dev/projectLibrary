@@ -1,1 +1,1 @@
-MD5
+Bcrypt

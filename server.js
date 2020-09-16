@@ -13,7 +13,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser('a$gdg^74Y^aADCuj)02'));
 app.set("view engine", "pug");
 app.set("views", "./views");
 // app.use(cookiesMiddleware.cookies);

@@ -1,6 +1,6 @@
 const db = require('../data.js');
-const md5 = require('md5');
 const shortid = require("shortid");
+const bcrypt = require('bcrypt');
 
 module.exports.index = function(req, res) {
   res.render("admin/master", { dataUsers: db.get("users").value() });
@@ -11,15 +11,25 @@ module.exports.addUser = function(req, res) {
 }
 
 
-module.exports.addUserP = function(req, res) {
-  req.body.id = shortid.generate();
-  req.body.isAdmin = false;
-  req.body.passLogin = md5(req.body.passLogin);
-  var hehe = db.get("users")
-    .push(req.body)
-    .write();
-  res.redirect("/master")
-  console.log(hehe)
+module.exports.addUserP = async function(req, res) {
+    try{
+      var hashedPassword =  await bcrypt.hash(req.body.passLogin, 10) 
+      var pushData = {
+        isAdmin: req.body.isAdmin = false,
+        id: req.body.id = shortid.generate(),
+        emailLogin: req.body.emailLogin,
+        passLogin: hashedPassword,
+        name: req.body.name,
+        introduce: req.body.introduce
+      }
+      var hehe = db.get("users")
+      .push(pushData)
+      .write();
+      res.redirect("/master")
+      console.log(hehe)
+    }catch{
+      res.status(500).send()
+    }
 }
 
 module.exports.id = function(req, res){

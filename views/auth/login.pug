@@ -2,6 +2,8 @@ extends ../layouts/common.pug
 block header
   div(class="container-md")
     h1 Login
+    .alert.alert-primary 
+      i User: huynt.seo@gmail.com | Pass: 123123
     if(error)
         .alert.alert-danger= error
     form(method="POST" style="margin-top:20px")

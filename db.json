@@ -13,44 +13,12 @@
   ],
   "users": [
     {
-      "name": "Nguyễn Tuấn Huy",
-      "introduce": "sdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffff",
+      "isAdmin": false,
+      "id": "UwWPPRDCD",
       "emailLogin": "huynt.seo@gmail.com",
-      "passLogin": "4297f44b13955235245b2497399d7a93",
-      "id": "3gPJDvoJU",
-      "isAdmin": true
-    },
-    {
-      "name": "Nguyễn Phùng Hưng",
-      "introduce": "Xin chào tôi là Hưng",
-      "emailLogin": "huynt.so@gmail.com",
-      "passLogin": "4297f44b13955235245b2497399d7a93",
-      "id": "8ATKNm5__",
-      "isAdmin": false
-    },
-    {
-      "name": "Nguyễn Văn Thịnh",
-      "introduce": "Xin chào tôi là Thịnh",
-      "emailLogin": "huynt.eo@gmail.com",
-      "passLogin": "4297f44b13955235245b2497399d7a93",
-      "id": "ujoIo_JV9",
-      "isAdmin": false
-    },
-    {
-      "name": "Nguyễn Tấn Tài",
-      "introduce": "Hello",
-      "emailLogin": "huynt@gmail.com",
-      "passLogin": "4297f44b13955235245b2497399d7a93",
-      "id": "4GYpoilQO",
-      "isAdmin": false
-    },
-    {
-      "name": "Nguyễn Huy",
-      "introduce": "sdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffffsdfsdfffff",
-      "emailLogin": "huy@gmail.com",
-      "passLogin": "f5bb0c8de146c67b44babbf4e6584cc0",
-      "id": "9kKgQhIYf",
-      "isAdmin": false
+      "passLogin": "$2b$10$dsjG1nHwg5Sp8gQLKTr02etXl/SLr/WrRAeqFUKAIZqEhIxyRPYP6",
+      "name": "Nguyễn Tuấn Huy",
+      "introduce": "Xin chào tôi là Huy"
     }
   ],
   "transactions": [

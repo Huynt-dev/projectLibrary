@@ -6,7 +6,7 @@ block header
     ul(class="list-group")
     each user in dataUsers
       li(class="list-group-item")= user.name
-        a(class="badge badge-primary" href="master/" + user.id) Thông tin
+        a.ml-2(class="badge badge-primary" href="master/" + user.id) Thông tin
         span      
         a(class="badge badge-success" href="master/" + user.id + "/edit") Sửa
         span     

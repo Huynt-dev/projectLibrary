@@ -12,8 +12,8 @@ block header
     
     ul(class="list-group")
       each value in library
-        li(class="list-group-item")= value.title
-          a(class="badge badge-primary" href="book/" + value.id) Thông tin
+        li(class="list-group-item ")= value.title
+          a.ml-2(class="badge badge-primary" href="book/" + value.id) Thông tin
           span      
           a(class="badge badge-success" href="book/" + value.id + "/edit") Sửa
           span     
