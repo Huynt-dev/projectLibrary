@@ -7,18 +7,18 @@ const book = express.Router();
 
 book.get("/search", bookController.search);
 
-book.get("/book", bookController.index);
+book.get("/", bookController.index);
 
 book.get("/add", bookController.add);
 
 book.post("/add", bookController.post);
 
-book.get("/book/:id", bookController.id);
+book.get("/:id", bookController.id);
 
-book.get("/book/:id/delete", bookController.delete);
+book.get("/:id/delete", bookController.delete);
 
-book.get("/book/:id/edit", bookController.edit);
+book.get("/:id/edit", bookController.edit);
 
-book.post("/book/:id/edit", bookController.editPort);
+book.post("/:id/edit", bookController.editPort);
 
 module.exports = book;

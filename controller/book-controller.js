@@ -7,6 +7,7 @@ module.exports.search = function(req, res) {
   var filterBook = getData.filter(function(x) {
     return x.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
   });
+  
   res.render("books/book", {
     library: filterBook,
     queryValue: q
@@ -23,6 +24,23 @@ module.exports.add = function(req, res) {
 
 module.exports.post = function(req, res) {
   req.body.id = shortid.generate();
+  var err = [];
+  if(!req.body.title){
+    err.push('Không được bỏ trống tiêu đề sách')
+  }
+  
+  if(!req.body.description){
+    err.push('không được bỏ trống miêu tả nội dung')
+  }
+  
+  if(err.length > 0){
+    res.render('books/add',{
+      error: err,
+      values: req.body
+    });
+    return;
+  }
+  
   db.get("library")
     .push(req.body)
     .write();

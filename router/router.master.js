@@ -3,21 +3,22 @@ const shortid = require("shortid");
 const db = require("../data.js");
 
 const masterController = require('../controller/master-controller.js')
+const validate = require('../validator/validates.js')
 
 const master = express.Router();
 
-master.get("/master", masterController.index);
+master.get("/", masterController.index);
 
 master.get("/addUser", masterController.addUser);
 
-master.post("/addUser", masterController.addUserP);
+master.post("/addUser",validate.validateUser, masterController.addUserP);
 
-master.get("/master/:id", masterController.id)
+master.get("/:id", masterController.id)
 
-master.get("/master/:id/edit", masterController.edit)
+master.get("/:id/edit", masterController.edit)
 
-master.post("/master/:id/edit", masterController.editP)
+master.post("/:id/edit", masterController.editP)
 
-master.get("/master/:id/delete", masterController.delete)
+master.get("/:id/delete", masterController.delete)
 
 module.exports = master;

@@ -3,7 +3,22 @@ const shortid = require("shortid");
 
 module.exports.index = function(req, res) {
   var getData = db.get("transactions").value();
-  res.render("trade/showTrade", { transactions: getData });
+  var userId = req.signedCookies.cookie_user;
+  var userDb = db
+    .get("users")
+    .find({ id: userId })
+    .value();
+  
+  if (userDb.isAdmin !== true) {
+    var getNewDb = getData.filter(function(x) {
+      if (x.user.userId === userId) {
+        return x;
+      }
+    });
+    res.render("trade/showTrade", { transactions: getNewDb });
+  } else {
+    res.render("trade/showTrade", { transactions: getData });
+  }
 };
 
 module.exports.new = function(req, res) {
@@ -38,7 +53,9 @@ module.exports.newP = function(req, res) {
 
 module.exports.complete = function(req, res) {
   var getId = req.params.id;
-  db.get("transactions")
+
+  var getData = db
+    .get("transactions")
     .find({ id: getId })
     .assign({ isComplete: true })
     .write();
