@@ -1,9 +1,12 @@
 const express = require("express");
 const shortid = require("shortid");
 const db = require("../data.js");
+const multer  = require('multer')
+const upload = multer({ dest: './public/uploads/' })
 
 const masterController = require('../controller/master-controller.js')
 const validate = require('../validator/validates.js')
+
 
 const master = express.Router();
 
@@ -11,7 +14,7 @@ master.get("/", masterController.index);
 
 master.get("/addUser", masterController.addUser);
 
-master.post("/addUser",validate.validateUser, masterController.addUserP);
+master.post("/addUser",upload.single('avatar'), validate.validateUser, masterController.addUserP);
 
 master.get("/:id", masterController.id)
 

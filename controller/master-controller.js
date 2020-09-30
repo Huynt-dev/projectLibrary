@@ -1,6 +1,7 @@
 const db = require('../data.js');
 const shortid = require("shortid");
 const bcrypt = require('bcrypt');
+const cloudinary = require('cloudinary').v2
 
 module.exports.index = function(req, res) {
   res.render("admin/master", { dataUsers: db.get("users").value() });
@@ -14,19 +15,22 @@ module.exports.addUser = function(req, res) {
 module.exports.addUserP = async function(req, res) {
     try{
       var hashedPassword =  await bcrypt.hash(req.body.passLogin, 10) 
+
       var pushData = {
         isAdmin: req.body.isAdmin = false,
+        checkLogin:req.body.checkLogin = 0,
         id: req.body.id = shortid.generate(),
         emailLogin: req.body.emailLogin,
         passLogin: hashedPassword,
         name: req.body.name,
-        introduce: req.body.introduce
+        introduce: req.body.introduce,
+        avatar: req.body.avatar = req.file.path.split('/').slice(1).join('/')
       }
+      
       var hehe = db.get("users")
       .push(pushData)
       .write();
       res.redirect("/master")
-      console.log(hehe)
     }catch{
       res.status(500).send()
     }

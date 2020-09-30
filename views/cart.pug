@@ -1,0 +1,23 @@
+extends ../views/layouts/common.pug
+block header
+  div.container-md
+    .contai
+    .mt-5
+      h1 Cart
+        table.table.table-bordered
+          thead.thead-dark
+            tr
+              th Tên sách
+              th Mã sách
+              th Số lượng
+            
+          tbody
+          each value in cart
+            tr
+              th= value.title
+              th= value.id
+              th= value.quantity
+          tr
+            th.text-right(colspan="2") Tổng số:
+            th(colspan="1")
+        a.float-right.btn.btn-success.ml-2(href="/buy") Đặt thuê

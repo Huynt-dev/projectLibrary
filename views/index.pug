@@ -1,9 +1,49 @@
 extends ../views/layouts/common.pug
 block header
-  
-
   div.container-md
-    div.mt-4
-      ul.list-group
-        each value in library
-          li(class="list-group-item")= value.title
+    .contai
+    .mt-5
+    .row.row-cols-1.row-cols-md-3
+        for value of library
+          .col-4.mb-4
+            .card
+              img.card-img-top( width='100px' height='100%')
+              .card-body
+                h5.card-title= value.title
+                p.card-text= value.description
+                a(href='/cart/add/'+ value.id) 
+                  .btn.btn-primary Add to cart
+          
+    nav.Page.navigation.example.mt-4
+      -var previousPage = currPage - 1
+      -var nextPage = currPage + 1
+      -var window = 4
+      
+      -var maxLeft = (currPage - Math.floor(window/2))
+      -var maxRight = (currPage + Math.floor(window/2))
+      
+      if (maxLeft < 1)
+        -maxLeft = 1
+        -maxRight = window
+    
+      if (maxRight > maxPage) 
+        -maxRight = maxPage
+        -maxLeft = maxRight - (window - 1)
+        
+      if(maxLeft < 1)
+        -maxLeft = 1
+          
+      ul.pagination
+        if(currPage > 1) 
+          li.page-item
+            a.page-link(href="?page="+ previousPage) Trang trước
+        while maxLeft < maxRight
+          li.page-item
+            a.page-link(href="?page="+ maxLeft)= maxLeft++
+        li.page-item
+          a.page-link ...
+        li.page-item
+          a.page-link(href="?page="+ maxPage)= maxPage
+        if(currPage < maxPage)
+          li.page-item
+            a.page-link(href="?page="+ nextPage) Trang Tiếp theo
