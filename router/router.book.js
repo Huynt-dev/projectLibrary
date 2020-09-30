@@ -7,7 +7,7 @@ const book = express.Router();
 
 book.get("/search", bookController.search);
 
-book.get("/", bookController.index);
+book.get("/", bookController.book);
 
 book.get("/add", bookController.add);
 

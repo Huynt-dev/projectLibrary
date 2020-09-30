@@ -5,13 +5,15 @@ block header
     if error
       each err in error
         .alert.alert-danger= err
-    form(method="POST" style="margin-top:20px")
+    form(method="POST", style="margin-top:20px", enctype="multipart/form-data")
       div(class="form-group")
         input(class="form-control" type="text" name="name" placeholder="Họ và tên")
       div(class="form-group")
-        input(class="form-control" type="text" name="introduce" placeholder="một chút về bản thân")
+        input(class="form-control" type="text" name="introduce" placeholder="một chút về bản thân" value= emailLogin)
       div(class="form-group")
         input(class="form-control" type="email" name="emailLogin" placeholder="Email")
       div(class="form-group")
         input(class="form-control" type="password" name="passLogin" placeholder="Password")
+      div(class="form-group")
+        input(class="form-control-file" type="file" name="avatar")
       button(class="btn btn-primary" type="submit") Thêm
