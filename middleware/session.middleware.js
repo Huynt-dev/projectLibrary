@@ -1,36 +1,22 @@
-const shortid = require("shortid");
-const db = require("../data.js");
+const dbUser = require("../models/user.model.js")
+const dbSession = require("../models/session.model.js")
 
-module.exports = function(req, res, next) {
+
+module.exports = async function(req, res, next) {
   if (!req.signedCookies.sessionId) {
-    var newSessionId = shortid.generate();
-    res.cookie("sessionId", newSessionId, {
+    var newSession = await dbSession.create({});
+    res.cookie("sessionId", newSession.id, {
       signed: true
     });
-
-    db.get("sessions")
-      .push({
-        id: newSessionId
-      })
-      .write();
-    next();
   }
-
-  var data = db
-    .get("sessions")
-    .find({ id: req.signedCookies.sessionId })
-    .value();
-  //count
+  
+  var session = await dbSession.findById(req.signedCookies.sessionId);
   var number = 0;
-  if (!data.cart) {
-    res.locals.quantity = number;
-    next();
-  }
-
-  for (var book in data.cart) {
-    number += data.cart[book];
+  if (session) {
+    for (let book of session.cart) {
+      number += book.quantity;
+    }
   }
   res.locals.quantity = number;
-  // quantity = số lượng
   next();
 };

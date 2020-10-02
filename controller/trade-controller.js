@@ -1,13 +1,13 @@
-const db = require("../data.js");
-const shortid = require("shortid");
+const mongoose = require("mongoose");
+const dbTransactions = require("../models/trade.model.js");
+const dbUser = require("../models/user.model.js");
+const bookLibrary = require("../models/books.model.js");
 
-module.exports.index = function(req, res) {
-  var getData = db.get("transactions").value();
+
+module.exports.index = async function(req, res) {
+  var getData = await dbTransactions.find();
   var userId = req.signedCookies.cookie_user;
-  var userDb = db
-    .get("users")
-    .find({ id: userId })
-    .value();
+  var userDb = await dbUser.findById(userId)
   
   if (userDb.isAdmin !== true) {
     var getNewDb = getData.filter(function(x) {
@@ -21,9 +21,13 @@ module.exports.index = function(req, res) {
   }
 };
 
-module.exports.new = function(req, res) {
-  var getDataUser = db.get("users").value();
-  var getDataLibrary = db.get("library").value();
+module.exports.new = async function(req, res) {
+  
+  // var getDataUser = db.get("users").value();
+  var getDataUser = await dbUser.find();
+  
+  // var getDataLibrary = db.get("library").value();
+  var getDataLibrary = await bookLibrary.find();
 
   res.render("trade/newTrader", {
     dataUser: getDataUser,
@@ -31,33 +35,21 @@ module.exports.new = function(req, res) {
   });
 };
 
-module.exports.newP = function(req, res) {
-  var pushData = {
-    id: shortid.generate(),
+module.exports.newP = async function(req, res) {
+  await dbTransactions.create({
     isComplete: false,
     user: {
-      userId: req.body.userId,
-      userName: req.body.userName
+      userId: req.body.userId
     },
     book: {
-      bookId: req.body.bookId,
-      bookName: req.body.bookName
+      bookId: req.body.bookId
     }
-  };
-
-  db.get("transactions")
-    .push(pushData)
-    .write();
+  })
   res.redirect("/trade");
 };
 
-module.exports.complete = function(req, res) {
+module.exports.complete = async function(req, res) {
   var getId = req.params.id;
-
-  var getData = db
-    .get("transactions")
-    .find({ id: getId })
-    .assign({ isComplete: true })
-    .write();
+  var getData = await dbTransactions.findById(getId).updateOne({isComplete: true});
   res.redirect("/trade");
 };

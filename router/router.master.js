@@ -1,6 +1,5 @@
 const express = require("express");
 const shortid = require("shortid");
-const db = require("../data.js");
 const multer  = require('multer')
 const upload = multer({ dest: './public/uploads/' })
 

@@ -1,24 +1,17 @@
-const db = require("../data.js");
+const dbUser = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 
-module.exports.login = function(req, res,next) {
+
+module.exports.login = function(req, res) {
   if (!req.signedCookies.cookie_user) {
     res.render("auth/login");
     return;
   }
-
-  if (req.signedCookies.cookie_user) {
-    res.redirect("/");
-    return;
-  }
-  next()
+  res.redirect("/");
 };
 
 module.exports.loginOk = async function(req, res) {
-  var getEmail = db
-    .get("users")
-    .find({ emailLogin: req.body.emailLogin })
-    .value();
+  var getEmail = await dbUser.findOne({ emailLogin: req.body.emailLogin });
 
   if (!getEmail) {
     res.render("auth/login", {
@@ -26,7 +19,7 @@ module.exports.loginOk = async function(req, res) {
     });
     return;
   }
-
+console.log(getEmail)
   var getPass = req.body.passLogin;
 
   if (!getPass) {
@@ -39,19 +32,16 @@ module.exports.loginOk = async function(req, res) {
   var checkPass = await bcrypt.compare(getPass, getEmail.passLogin);
 
   if (checkPass !== true) {
-    db.get("users")
-      .find({ emailLogin: req.body.emailLogin })
-      .update("checkLogin", n => n + 1)
-      .write();
-
+    await dbUser.find({ emailLogin: req.body.emailLogin }).update({"checkLogin": n => n + 1});
+    
     res.render("auth/login", {
       error: "Sai tên đăng nhập hoặc mật khẩu"
     });
     return;
+  }else{
+    res.cookie("cookie_user", getEmail.id, {
+      signed: true
+    });
+    res.redirect("/");
   }
-
-  res.cookie("cookie_user", getEmail.id, {
-    signed: true
-  });
-  res.redirect("/");
 };

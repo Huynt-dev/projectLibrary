@@ -1,14 +1,15 @@
-const db = require("../data.js");
+// const db = require("../data.js");
 const shortid = require("shortid");
 
 module.exports.validateComplete = function(req,res,next){
   var getId = req.params.id;
-  var getData = db.get("transactions").find({ id: getId }).value();
-  console.log(getData);
-    if(!getData){
-      res.send('404');
-    }
-    next();
+  var getData = []
+  
+  if(!getData){
+    res.send('404');
+  }
+  
+  next();
 }
 
 module.exports.validateUser = function(req,res,next){

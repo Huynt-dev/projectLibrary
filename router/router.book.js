@@ -1,13 +1,13 @@
 const express = require('express');
 const shortid = require("shortid");
-const db = require('../data.js')
+// const db = require('../data.js')
 
 const bookController = require('../controller/book-controller.js')
 const book = express.Router();
 
-book.get("/search", bookController.search);
-
 book.get("/", bookController.book);
+
+book.get("/search", bookController.search);
 
 book.get("/add", bookController.add);
 

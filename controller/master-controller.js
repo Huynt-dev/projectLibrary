@@ -1,10 +1,12 @@
-const db = require('../data.js');
-const shortid = require("shortid");
+const dbUser = require("../models/user.model.js");
+const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary').v2
 
-module.exports.index = function(req, res) {
-  res.render("admin/master", { dataUsers: db.get("users").value() });
+module.exports.index = async function(req, res) {
+  // res.render("admin/master", { dataUsers: db.get("users").value() });
+  var getUser = await dbUser.find()
+  res.render("admin/master", { dataUsers: getUser });
 }
 
 module.exports.addUser = function(req, res) {
@@ -16,61 +18,56 @@ module.exports.addUserP = async function(req, res) {
     try{
       var hashedPassword =  await bcrypt.hash(req.body.passLogin, 10) 
 
-      var pushData = {
+      await dbUser.create ({
         isAdmin: req.body.isAdmin = false,
         checkLogin:req.body.checkLogin = 0,
-        id: req.body.id = shortid.generate(),
+        id: req.body.id = mongoose.Types.ObjectId,
         emailLogin: req.body.emailLogin,
         passLogin: hashedPassword,
         name: req.body.name,
         introduce: req.body.introduce,
         avatar: req.body.avatar = req.file.path.split('/').slice(1).join('/')
-      }
+      })
       
-      var hehe = db.get("users")
-      .push(pushData)
-      .write();
       res.redirect("/master")
     }catch{
       res.status(500).send()
     }
 }
 
-module.exports.id = function(req, res){
+module.exports.id = async function(req, res){
   var getId = req.params.id
-  var getData = db.get("users")
-  .find({id: getId})
-  .value()
+  var data = await dbUser.findById(getId)
   res.render("admin/show",{
-    data: getData
+    data
   })
 }
 
-module.exports.edit = function(req, res){
+module.exports.edit = async function(req, res){
   var getId = req.params.id;
-  var getData = db.get("users")
-  .find({id: getId})
-  .value()
+  var data = await dbUser.findById(getId)
   res.render("admin/editUser",{
-    data: getData
+    data
   })
 }
 
-module.exports.editP = function(req,res){
+module.exports.editP = async function(req,res){
   var getId = req.params.id;
   var getName = req.body.name;
   var getIntroduce = req.body.introduce;
-  var getData = db.get("users")
-  .find({id: getId})
-  .assign({name: getName, introduce: getIntroduce})
-  .write();
+  await dbUser.findById(getId).updateOne({name: getName, introduce: getIntroduce})
+  // var getData = db.get("users")
+  // .find({id: getId})
+  // .assign({name: getName, introduce: getIntroduce})
+  // .write();
   res.redirect('/master')
 }
 
-module.exports.delete = function(req,res){
+module.exports.delete = async function(req,res){
   var getId = req.params.id;
-  db.get("users")
-  .remove({id: getId})
-  .write()
+  var data = await dbUser.deleteOne({_id:getId})
+  // db.get("users")
+  // .remove({id: getId})
+  // .write()
   res.redirect("/master")
 }

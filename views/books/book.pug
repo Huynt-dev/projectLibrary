@@ -13,11 +13,11 @@ block header
     ul(class="list-group")
       each value in library
         li(class="list-group-item ")= value.title
-          a.ml-2(class="badge badge-primary" href="book/" + value.id) Thông tin
+          a.ml-2(class="badge badge-primary" href="book/" + value._id) Thông tin
           span      
-          a(class="badge badge-success" href="book/" + value.id + "/edit") Sửa
+          a(class="badge badge-success" href="book/" + value._id + "/edit") Sửa
           span     
-          a(class="badge badge-danger" href="book/" + value.id + "/delete") Xóa
+          a(class="badge badge-danger" href="book/" + value._id + "/delete") Xóa
     
     nav.Page.navigation.example.mt-4
       ul.pagination
