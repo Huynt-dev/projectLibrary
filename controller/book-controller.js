@@ -1,9 +1,9 @@
-const db = require("../data.js");
-const shortid = require("shortid");
+const bookLibrary = require("../models/books.model.js");
+const mongoose = require("mongoose");
 
-module.exports.search = function(req, res) {
+module.exports.search = async function(req, res) {
   var q = req.query.q;
-  var getData = db.get("library").value();
+  var getData = await bookLibrary.find();
   var filterBook = getData.filter(function(x) {
     return x.title.toLowerCase().indexOf(q.toLowerCase()) !== -1;
   });
@@ -15,15 +15,10 @@ module.exports.search = function(req, res) {
 };
 
 
-module.exports.book = function(req, res) {
-  var pageN = parseInt(req.query.page) || 1;
-  var bookN = 21;
-  
-  var start = (pageN - 1)* bookN;
-  var end = pageN * bookN;
-  
+module.exports.book = async function(req, res) {
+  var library = await bookLibrary.find();
   res.render("books/book", {
-    library: db.get("library").value().slice(start,end)
+    library
   });
 };
 
@@ -31,8 +26,8 @@ module.exports.add = function(req, res) {
   res.render("books/add");
 };
 
-module.exports.post = function(req, res) {
-  req.body.id = shortid.generate();
+module.exports.post = async function(req, res) {
+  req.body.id = mongoose.Types.ObjectId;
   var err = [];
   if (!req.body.title) {
     err.push("Không được bỏ trống tiêu đề sách");
@@ -50,50 +45,40 @@ module.exports.post = function(req, res) {
     return;
   }
 
-  db.get("library")
-    .push(req.body)
-    .write();
+  await bookLibrary.create(req.body)
   res.redirect("/");
 };
 
-module.exports.id = function(req, res) {
+module.exports.id = async function(req, res) {
   var getId = req.params.id;
-  var getData = db
-    .get("library")
-    .find({ id: getId })
-    .value();
+  var getData = await bookLibrary.findById(getId);
+
   res.render("books/show", {
     data: getData
   });
 };
 
-module.exports.delete = function(req, res) {
+module.exports.delete = async function(req, res) {
   var getId = req.params.id;
-  var getData = db
-    .get("library")
-    .remove({ id: getId })
-    .write();
+  var getData = await bookLibrary.find().deleteOne({ _id: getId });
+
   res.redirect("/");
 };
 
-module.exports.edit = function(req, res) {
+module.exports.edit = async function(req, res) {
   var getId = req.params.id;
-  var getData = db
-    .get("library")
-    .find({ id: getId })
-    .value();
+  var getData = await bookLibrary.findById(getId);
+
   res.render("books/edit", {
     data: getData
   });
 };
 
-module.exports.editPort = function(req, res) {
+module.exports.editPort = async function(req, res) {
   var getId = req.params.id;
   var getTitle = req.body.title;
   var getDescription = req.body.description;
-  db.get("library")
-    .find({ id: getId })
-    .assign({ title: getTitle, description: getDescription })
-    .write();
+  await bookLibrary.findById(getId).updateOne({ title: getTitle, description: getDescription });
+
   res.redirect("/");
 };

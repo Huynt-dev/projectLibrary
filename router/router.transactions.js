@@ -1,7 +1,4 @@
 const express = require("express");
-const shortid = require("shortid");
-const db = require("../data.js");
-
 const tradeController = require('../controller/trade-controller.js')
 const validate = require('../validator/validates.js')
 

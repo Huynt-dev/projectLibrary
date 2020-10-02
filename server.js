@@ -2,8 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./data.js");
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+
+const apiLoginRoute = require("./api/router/login.api.router.js");
+const apiTransactionRoute = require("./api/router/transaction.api.router.js");
+
 const routerMaster = require("./router/router.master.js");
 const routerBook = require("./router/router.book.js");
 const routerTrade = require("./router/router.transactions.js");
@@ -15,6 +19,15 @@ const authLogin = require("./middleware/authLogin.js");
 const checkUser = require("./middleware/checkLogin.js");
 const sessionMiddleware = require("./middleware/session.middleware.js");
 const app = express();
+
+mongoose.connect(process.env.MONGODB_URI,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+
+mongoose.connection.on('connected',()=>{
+  console.log('Connected !!!!!')
+})
 
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -34,7 +47,8 @@ app.use("/trade", authLogin.auth, routerTrade);
 app.use("/cart", routerCart);
 app.use("/buy", authLogin.auth, routerBuy);
 app.use("/auth", routerAuth);
-
+app.use("/api", apiLoginRoute);
+app.use("/api", apiTransactionRoute);
 
 // listen for requests :)
 app.listen(process.env.PORT, () => {

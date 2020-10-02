@@ -1,49 +1,36 @@
-const db = require("../data.js");
+const dbSession = require("../models/session.model.js");
+const bookLibrary = require("../models/books.model.js");
 
-module.exports.cart = function(req, res, next) {
-  // res.render("cart");
-  // dùng session lấy hết tất cả id trong data.cart
-  var getCart = db
-    .get("sessions")
-    .find({ id: req.signedCookies.sessionId })
-    .value();
-
-  var cart = [];
-  for (var bookId in getCart.cart) {
-    var book = db
-      .get("library")
-      .find({ id: bookId })
-      .value();
-    console.log(getCart.cart[bookId])
-    book.quantity = getCart.cart[bookId];
-    cart.push(book);
-  }
-  // console.table(cart);
+module.exports.cart = async function(req, res, next) {
+  var session = await dbSession.findById(req.signedCookies.sessionId );
+  var cart = session.cart;
   res.render("cart", {
     cart
   });
-  next()
+  next();
 };
 
-module.exports.addToCart = function(req, res, next) {
+module.exports.addToCart = async function(req, res) {
   var productId = req.params.productId;
   var sessionId = req.signedCookies.sessionId;
-
+  // var userId = await sessionId.findOne()
   if (!sessionId) {
     res.redirect("/");
   }
+  var session = await dbSession.findById(sessionId);
+  
+  var book = session.cart.find(
+    cartItem => cartItem.bookId.toString() === productId
+  );
 
-  var count = db
-    .get("sessions")
-    .find({ id: sessionId })
-    .get("cart." + productId, 0)
-    .value();
-
-  db.get("sessions")
-    .find({ id: sessionId })
-    .set("cart." + productId, count + 1)
-    .write();
+  if (book) {
+    book.quantity += 1;
+    await session.save();
+  } else {
+    await dbSession.findByIdAndUpdate(sessionId, {
+      $push: { cart: { bookId: productId, quantity: 1 } }
+    });
+  }
 
   res.redirect("/");
-  next()
 };
